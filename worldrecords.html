@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
+		
+		<title>World Records</title>
+	</head>
+	<body>
+	<span class="text">
+	</span>
+
+
+	<script>		
+	var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1zFxTorxE8BRmHzjhK3wdAhqF0ryDkQoZ-rLyCqy6cJs/pub?output=csv';
+	
+	function init() {
+		Papa.parse(publicSpreadsheetUrl, {
+			download: true,
+			header: true,
+			complete: showInfo
+		})
+	}
+    window.addEventListener('DOMContentLoaded', init)
+	
+	function showInfo(results) {
+		var data = results.data
+		var string = "AA World Records: ";
+		const count = data.filter(column => column.aacat).length; 
+		
+		for (var i = 1; i < count; i++) {	
+			string = string.concat("| " + data[i].aacat + ": " + data[i].aaname + " (" + data[i].aatime + ") " );  
+		}
+		$('.text').text(string)
+		console.log(string);
+	}
+
+	</script>
+	</body>
+</html>
